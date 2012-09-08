@@ -1,0 +1,1 @@
+<li><?php echo anchor('upload', $this->lang->line('page_upload')) ?></li>
