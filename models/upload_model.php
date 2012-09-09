@@ -11,6 +11,33 @@ class Upload_model extends IIC_Model {
 							);
     
     // ------------------------------------------------------------------------
+    
+    /**
+     * Delete content
+     *
+     * @access  public
+     * @param   array   $id     
+     */
+    
+    function delete_content($id)
+    {       
+        for($loop = 0; $loop < count($id); $loop++)
+        {
+        	$data = $this->get_content($id[$loop]);
+			
+			if(file_exists($data['full_path']))
+			{
+				unlink($data['full_path']);
+			}
+			
+            $this->db->where('id', $id[$loop]);
+            $this->db->delete($this->table['main']);
+        }
+		
+		return count($id);
+    }	
+    
+    // ------------------------------------------------------------------------
 }
 
 
