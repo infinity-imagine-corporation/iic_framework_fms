@@ -1,1 +1,1 @@
-<li><?php echo anchor('upload', $this->lang->line('page_upload')) ?></li>
+<li><?php echo anchor('fms/upload', $this->lang->line('page_upload')) ?></li>

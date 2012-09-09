@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Upload extends IIC_Controller {
-		
+class Fms extends IIC_Controller {	
 	// ------------------------------------------------------------------------
 	// Constructor
 	// ------------------------------------------------------------------------
@@ -12,21 +11,18 @@ class Upload extends IIC_Controller {
 		
 		// Set variable
 		$this->module_config['module'] = 'fms';
-		$this->module_config['controller'] = 'upload';
-		$this->module_config['form'] = 'upload_form';
+		$this->module_config['controller'] = 'fms';
+		$this->module_config['form'] = $this->module_config['controller'].'_form';
 		
 		// Load model
 		$this->load->model($this->module_config['controller'].'_model');
-		$this->content_model = $this->upload_model;
+		$this->content_model = $this->fms_model;
 		
 		// Load language
 		$this->lang->load(
 							$this->module_config['module'], 
 							$this->config->item('backoffice_language')
 						 );
-						 
-		// Load library
-		$this->load->library('upload');
 	}
 	
 	// ------------------------------------------------------------------------
@@ -49,8 +45,8 @@ class Upload extends IIC_Controller {
 		$_data['controller']	= $this->module_config['controller'];
 		$_data['ajax_uri']		= 'content';
 		$_data['template']		= 'backoffice/tpl_module_index';
-		$_data['page']			= 'upload';
-		$_data['title']			= $this->lang->line('page_upload');
+		$_data['page']			= 'fms';
+		$_data['title']			= $this->lang->line('page_fms');
 		
 		// Set navigator
 		$_data['navigator'] = array();
@@ -59,7 +55,7 @@ class Upload extends IIC_Controller {
 												'link'	=> 'backoffice'
 											  ));
 		array_push($_data['navigator'], array(
-												'label' => $this->lang->line('page_upload'),	
+												'label' => $this->lang->line('page_fms'),	
 												'link'	=> ''
 											  ));
 		
@@ -70,6 +66,12 @@ class Upload extends IIC_Controller {
 										'label'			=>$this->lang->line('name'),	
 										'is_criteria'	=> TRUE
 									  ));
+		array_push($_data['th'], array(
+										'axis'			=>'is_enable',	
+										'label'			=>$this->lang->line('status'),	
+										'is_criteria'	=> FALSE
+									  ));
+		
 		// Set pagination
 		$this->load->library('pagination');
 		
@@ -89,56 +91,8 @@ class Upload extends IIC_Controller {
 	}
 	
 	// ------------------------------------------------------------------------
-	
-	/**
-	 * Create content 
-	 *
-	 * @access	public
-	 */
-	
-	function create_content($file_field)
-	{	
-		$_config['upload_path'] = './uploads';
-		$_config['max_filename'] = 10;
-		$_config['remove_spaces'] = TRUE;
-		$_config['encrypt_name'] = TRUE;
-		
-		if( ! file_exists($_config['upload_path']))
-		{
-			//echo 'Created directory '.$_config['upload_path'];
-			mkdir($_config['upload_path'], 0777, TRUE);
-		}
-
-		$this->upload->initialize($_config);
-
-		if($this->upload->do_upload($file_field))
-		{
-			$_data = $this->upload->data();
-			$_data['date_time_create'] = date('Y-m-d H:i:s');
-			$_result = $this->content_model->create_content($_data);
-			
-			if(is_int($_result))
-			{
-				$this->output->set_status_header('201');	
-				echo $_result;
-			}
-			else 
-			{
-				$this->output->set_status_header('500');
-			}
-		}
-		else
-		{
-			$this->output->set_status_header('500');
-			echo '<h1>'.$this->module_config['module'].'/'.$this->module_config['controller'].'</h1>';
-			echo '<hr />';
-			echo '<p>Upload fail :(</p>'.$this->upload->display_errors();
-		}
-	}
-	
-	// ------------------------------------------------------------------------
 }
 
 
-/* End of file upload.php */
-/* Location: application/modules/backoffice/controllers/upload.php */
+/* End of file fms.php */
+/* Location: application/modules/fms/controllers/fms.php */

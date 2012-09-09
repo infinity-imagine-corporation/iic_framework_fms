@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Upload_model extends IIC_Model {
+class Fms_model extends IIC_Model {
 	
     /**
      * Setup database
      */
     
     protected $table = array(
-    							'main' => 'fms_file'
+    							'main' => 'upload'
 							);
     
     // ------------------------------------------------------------------------
