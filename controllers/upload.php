@@ -99,6 +99,7 @@ class Upload extends IIC_Controller {
 	function create_content($file_field)
 	{	
 		$_config['upload_path'] = './uploads';
+		$_config['allowed_types'] = '*';
 		$_config['max_filename'] = 10;
 		$_config['remove_spaces'] = TRUE;
 		$_config['encrypt_name'] = TRUE;
